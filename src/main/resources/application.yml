@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: twm-market-data-crdb-service
+  datasource:
+    url: jdbc:postgresql://${CRDB_DB_HOST}:${CRDB_DB_PORT}/${CRDB_DB}
+    username: ${CRDB_USERNAME}
+  jpa:
+    database: postgresql
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+server:
+  port: ${EUREKA_REGISTRATION_PORT:23549}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:2012/eureka}
+  instance:
+    preferIpAddress: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000 #milliseconds
+        readTimeout: 10000
