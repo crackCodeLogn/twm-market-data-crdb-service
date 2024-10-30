@@ -1,7 +1,6 @@
 package com.vv.personal.twm.crdb.v1.service;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
-
 import java.util.Optional;
 
 /**
@@ -12,4 +11,6 @@ public interface MarketData extends BackUpAndRestore {
     boolean addMarketData(MarketDataProto.Ticker ticker);
 
     Optional<MarketDataProto.Ticker> getMarketDataByTicker(String symbol);
+
+  Optional<MarketDataProto.Portfolio> getEntireMarketData();
 }

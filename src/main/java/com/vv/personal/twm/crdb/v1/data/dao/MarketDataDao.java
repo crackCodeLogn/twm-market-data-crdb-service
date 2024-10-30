@@ -1,7 +1,6 @@
 package com.vv.personal.twm.crdb.v1.data.dao;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
-
 import java.util.Optional;
 
 /**
@@ -11,6 +10,8 @@ import java.util.Optional;
 public interface MarketDataDao {
 
     Optional<MarketDataProto.Ticker> getMarketDataByTicker(String ticker);
+
+  Optional<MarketDataProto.Portfolio> getEntireMarketData();
 
     int insertMarketData(int date, String ticker, double price);
 }

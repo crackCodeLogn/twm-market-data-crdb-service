@@ -3,11 +3,10 @@ package com.vv.personal.twm.crdb.v1.service.impl;
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
 import com.vv.personal.twm.crdb.v1.data.dao.MarketDataDao;
 import com.vv.personal.twm.crdb.v1.service.MarketData;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * @author Vivek
@@ -29,6 +28,10 @@ public class MarketDataImpl implements MarketData {
         return marketDataDao.getMarketDataByTicker(symbol);
     }
 
+  @Override
+  public Optional<MarketDataProto.Portfolio> getEntireMarketData() {
+    return marketDataDao.getEntireMarketData();
+  }
 
     @Override
     public String extractDataInDelimitedFormat(String delimiter) {
