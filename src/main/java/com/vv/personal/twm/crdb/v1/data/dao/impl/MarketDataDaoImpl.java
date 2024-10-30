@@ -2,6 +2,7 @@ package com.vv.personal.twm.crdb.v1.data.dao.impl;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
 import com.vv.personal.twm.crdb.v1.data.dao.MarketDataDao;
+import com.vv.personal.twm.crdb.v1.data.entity.CompositePrimaryKey;
 import com.vv.personal.twm.crdb.v1.data.entity.MarketDataEntity;
 import com.vv.personal.twm.crdb.v1.data.repository.MarketDataRepository;
 import java.util.*;
@@ -78,8 +79,15 @@ public class MarketDataDaoImpl implements MarketDataDao {
   }
 
   @Override
-  public int insertMarketData(int date, String ticker, double price) {
-    return 0;
+  public int insertMarketDataForSingleTicker(MarketDataProto.Ticker ticker) {
+    if (ticker.getSymbol().isEmpty() || ticker.getDataCount() == 0) return -1;
+
+    return marketDataRepository.saveAll(generateMarketDataEntities(ticker)).size();
+  }
+
+  @Override
+  public int insertMarketDataForPortfolio(MarketDataProto.Portfolio portfolio) {
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
   /**
@@ -95,6 +103,18 @@ public class MarketDataDaoImpl implements MarketDataDao {
     ticker.clearData();
     ticker.addAllData(values);
     return ticker;
+  }
+
+  private List<MarketDataEntity> generateMarketDataEntities(MarketDataProto.Ticker ticker) {
+    String symbol = ticker.getSymbol();
+    return ticker.getDataList().stream()
+        .map(
+            value ->
+                MarketDataEntity.builder()
+                    .id(CompositePrimaryKey.builder().ticker(symbol).date(value.getDate()).build())
+                    .price(value.getPrice())
+                    .build())
+        .toList();
   }
 
   private MarketDataProto.Ticker.Builder generateEmptyTicker(MarketDataEntity marketDataEntity) {

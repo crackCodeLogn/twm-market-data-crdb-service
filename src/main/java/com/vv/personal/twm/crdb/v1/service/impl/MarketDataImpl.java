@@ -20,7 +20,7 @@ public class MarketDataImpl implements MarketData {
 
   @Override
   public boolean addMarketData(MarketDataProto.Ticker ticker) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return marketDataDao.insertMarketDataForSingleTicker(ticker) != 0;
   }
 
   @Override
