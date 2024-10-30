@@ -19,10 +19,8 @@ import lombok.*;
 @Table(name = "market_data")
 public class MarketDataEntity {
 
-    @EmbeddedId
-    private CompositePrimaryKey id;
+  @EmbeddedId private CompositePrimaryKey id;
 
-    @Column(name = "price")
-    private double price;
-
+  @Column(name = "price")
+  private double price;
 }

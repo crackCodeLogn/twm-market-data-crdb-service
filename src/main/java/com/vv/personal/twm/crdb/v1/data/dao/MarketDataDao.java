@@ -9,9 +9,9 @@ import java.util.Optional;
  */
 public interface MarketDataDao {
 
-    Optional<MarketDataProto.Ticker> getMarketDataByTicker(String ticker);
+  Optional<MarketDataProto.Ticker> getMarketDataByTicker(String ticker);
 
   Optional<MarketDataProto.Portfolio> getEntireMarketData();
 
-    int insertMarketData(int date, String ticker, double price);
+  int insertMarketData(int date, String ticker, double price);
 }

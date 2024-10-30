@@ -16,26 +16,25 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MarketDataImpl implements MarketData {
-    private final MarketDataDao marketDataDao;
+  private final MarketDataDao marketDataDao;
 
-    @Override
-    public boolean addMarketData(MarketDataProto.Ticker ticker) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  @Override
+  public boolean addMarketData(MarketDataProto.Ticker ticker) {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
-    @Override
-    public Optional<MarketDataProto.Ticker> getMarketDataByTicker(String symbol) {
-        return marketDataDao.getMarketDataByTicker(symbol);
-    }
+  @Override
+  public Optional<MarketDataProto.Ticker> getMarketDataByTicker(String symbol) {
+    return marketDataDao.getMarketDataByTicker(symbol);
+  }
 
   @Override
   public Optional<MarketDataProto.Portfolio> getEntireMarketData() {
     return marketDataDao.getEntireMarketData();
   }
 
-    @Override
-    public String extractDataInDelimitedFormat(String delimiter) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+  @Override
+  public String extractDataInDelimitedFormat(String delimiter) {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 }

@@ -19,9 +19,9 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class CompositePrimaryKey implements Serializable {
 
-    @Column(name = "date")
-    private int date;
+  @Column(name = "date")
+  private int date;
 
-    @Column(name = "ticker")
-    private String ticker;
+  @Column(name = "ticker")
+  private String ticker;
 }
