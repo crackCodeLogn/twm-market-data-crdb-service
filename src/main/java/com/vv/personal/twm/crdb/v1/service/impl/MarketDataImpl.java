@@ -19,8 +19,13 @@ public class MarketDataImpl implements MarketData {
   private final MarketDataDao marketDataDao;
 
   @Override
-  public boolean addMarketData(MarketDataProto.Ticker ticker) {
+  public boolean addMarketDataForSingleTicker(MarketDataProto.Ticker ticker) {
     return marketDataDao.insertMarketDataForSingleTicker(ticker) != 0;
+  }
+
+  @Override
+  public boolean addMarketData(MarketDataProto.Portfolio portfolio) {
+    return marketDataDao.insertMarketDataForPortfolio(portfolio) != 0;
   }
 
   @Override

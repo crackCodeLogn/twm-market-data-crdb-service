@@ -17,11 +17,24 @@ import org.springframework.web.bind.annotation.*;
 public class MarketDataController {
   private final MarketData marketData;
 
-  @PostMapping("/data")
-  public String addMarketData(@RequestBody MarketDataProto.Ticker ticker) {
+  @PostMapping("/data-single-ticker")
+  public String addMarketDataForSingleTicker(@RequestBody MarketDataProto.Ticker ticker) {
     log.info("Received request to add '{}' ticker into db", ticker);
     try {
-      boolean result = marketData.addMarketData(ticker);
+      boolean result = marketData.addMarketDataForSingleTicker(ticker);
+      if (result) return "Done";
+      return "Failed";
+    } catch (Exception e) {
+      log.error("Failed to write all data correctly. ", e);
+    }
+    return "Failed";
+  }
+
+  @PostMapping("/data")
+  public String addMarketData(@RequestBody MarketDataProto.Portfolio portfolio) {
+    log.info("Received request to add '{}' portfolio into db", portfolio);
+    try {
+      boolean result = marketData.addMarketData(portfolio);
       if (result) return "Done";
       return "Failed";
     } catch (Exception e) {

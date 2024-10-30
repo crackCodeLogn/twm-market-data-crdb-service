@@ -8,7 +8,9 @@ import java.util.Optional;
  * @since 2024-10-01
  */
 public interface MarketData extends BackUpAndRestore {
-  boolean addMarketData(MarketDataProto.Ticker ticker);
+  boolean addMarketDataForSingleTicker(MarketDataProto.Ticker ticker);
+
+  boolean addMarketData(MarketDataProto.Portfolio portfolio);
 
   Optional<MarketDataProto.Ticker> getMarketDataByTicker(String symbol);
 
