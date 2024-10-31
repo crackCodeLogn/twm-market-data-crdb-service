@@ -128,6 +128,68 @@ class MarketDataDaoImplTest {
     assertEquals(-1, result);
   }
 
+  @Test
+  public void testInsertMarketDataForPortfolio() {
+    MarketDataProto.Portfolio portfolio =
+        MarketDataProto.Portfolio.newBuilder()
+            .addInstruments(
+                MarketDataProto.Instrument.newBuilder()
+                    .setTicker(
+                        MarketDataProto.Ticker.newBuilder()
+                            .setSymbol("vfv.to")
+                            .addData(
+                                MarketDataProto.Value.newBuilder()
+                                    .setPrice(131.23)
+                                    .setDate(20241001)
+                                    .build())
+                            .addData(
+                                MarketDataProto.Value.newBuilder()
+                                    .setPrice(132.23)
+                                    .setDate(20241002)
+                                    .build())
+                            .build())
+                    .build())
+            .addInstruments(
+                MarketDataProto.Instrument.newBuilder()
+                    .setTicker(
+                        MarketDataProto.Ticker.newBuilder()
+                            .setSymbol("cm.to")
+                            .addData(
+                                MarketDataProto.Value.newBuilder()
+                                    .setPrice(87.95)
+                                    .setDate(20241030)
+                                    .build())
+                            .build())
+                    .build())
+            .addInstruments(
+                MarketDataProto.Instrument.newBuilder()
+                    .setTicker(
+                        MarketDataProto.Ticker.newBuilder()
+                            .setSymbol("bns.to")
+                            .addData(
+                                MarketDataProto.Value.newBuilder()
+                                    .setPrice(97.95)
+                                    .setDate(20241030)
+                                    .build())
+                            .build())
+                    .build())
+            .build();
+    List<MarketDataEntity> entities =
+        Lists.newArrayList(
+            generateMarketDataEntity("vfv.to", 20241001, 131.23),
+            generateMarketDataEntity("vfv.to", 20241002, 132.23),
+            generateMarketDataEntity("cm.to", 20241030, 87.95),
+            generateMarketDataEntity("bns.to", 20241030, 97.95));
+
+    int result = marketDataDao.insertMarketDataForPortfolio(portfolio);
+    assertEquals(0, result); // cause it's a mock invocation
+    verify(marketDataRepository).saveAll(entities);
+
+    result =
+        marketDataDao.insertMarketDataForPortfolio(MarketDataProto.Portfolio.newBuilder().build());
+    assertEquals(-1, result);
+  }
+
   private MarketDataEntity generateMarketDataEntity(String ticker, int date, double price) {
     return MarketDataEntity.builder()
         .price(price)

@@ -87,7 +87,9 @@ public class MarketDataDaoImpl implements MarketDataDao {
 
   @Override
   public int insertMarketDataForPortfolio(MarketDataProto.Portfolio portfolio) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (portfolio.getInstrumentsCount() == 0) return -1;
+
+    return marketDataRepository.saveAll(generateMarketDataEntities(portfolio)).size();
   }
 
   /**
@@ -115,6 +117,16 @@ public class MarketDataDaoImpl implements MarketDataDao {
                     .price(value.getPrice())
                     .build())
         .toList();
+  }
+
+  private List<MarketDataEntity> generateMarketDataEntities(MarketDataProto.Portfolio portfolio) {
+    List<MarketDataEntity> marketDataEntities = Lists.newArrayList();
+    portfolio
+        .getInstrumentsList()
+        .forEach(
+            instrument ->
+                marketDataEntities.addAll(generateMarketDataEntities(instrument.getTicker())));
+    return marketDataEntities;
   }
 
   private MarketDataProto.Ticker.Builder generateEmptyTicker(MarketDataEntity marketDataEntity) {
