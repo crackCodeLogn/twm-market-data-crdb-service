@@ -20,14 +20,6 @@ public interface MarketDataRepository extends JpaRepository<MarketDataEntity, Co
   @Query(value = "SELECT * FROM market_data WHERE ticker = :ticker", nativeQuery = true)
   List<MarketDataEntity> getAllByTicker(@Param("ticker") String ticker);
 
-  @Modifying
-  @Transactional
-  @Query(
-      value = "INSERT INTO market_data(date, ticker, price) VALUES(:date, :ticker, :price)",
-      nativeQuery = true)
-  int insertMarketData(
-      @Param("date") int date, @Param("ticker") String ticker, @Param("price") double price);
-
   @Query(value = "SELECT * FROM market_data", nativeQuery = true)
   List<MarketDataEntity> getAll();
 
