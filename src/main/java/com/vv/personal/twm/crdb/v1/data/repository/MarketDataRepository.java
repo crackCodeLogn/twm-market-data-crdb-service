@@ -30,4 +30,9 @@ public interface MarketDataRepository extends JpaRepository<MarketDataEntity, Co
 
   @Query(value = "SELECT * FROM market_data", nativeQuery = true)
   List<MarketDataEntity> getAll();
+
+  @Modifying
+  @Transactional
+  @Query(value = "DELETE from market_data where ticker = :ticker", nativeQuery = true)
+  int deleteAllByTicker(@Param("ticker") String ticker);
 }

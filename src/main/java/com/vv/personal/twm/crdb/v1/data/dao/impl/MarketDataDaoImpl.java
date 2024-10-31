@@ -92,6 +92,11 @@ public class MarketDataDaoImpl implements MarketDataDao {
     return marketDataRepository.saveAll(generateMarketDataEntities(portfolio)).size();
   }
 
+  @Override
+  public int deleteMarketDataByTicker(String ticker) {
+    return marketDataRepository.deleteAllByTicker(ticker);
+  }
+
   /**
    * Sorts the entire data values for a ticker in increasing order of date
    *

@@ -16,4 +16,6 @@ public interface MarketDataDao {
   int insertMarketDataForSingleTicker(MarketDataProto.Ticker ticker);
 
   int insertMarketDataForPortfolio(MarketDataProto.Portfolio portfolio);
+
+  int deleteMarketDataByTicker(String ticker);
 }
