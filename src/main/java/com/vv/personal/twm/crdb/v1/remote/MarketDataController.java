@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class MarketDataController {
   private final MarketData marketData;
 
-  @PostMapping("/data-single-ticker")
+  @PostMapping("/data-single-ticker/")
   public String addMarketDataForSingleTicker(@RequestBody MarketDataProto.Ticker ticker) {
     log.info("Received request to add '{}' ticker into db", ticker);
     try {
@@ -30,7 +30,7 @@ public class MarketDataController {
     return "Failed";
   }
 
-  @PostMapping("/data")
+  @PostMapping("/data/")
   public String addMarketData(@RequestBody MarketDataProto.Portfolio portfolio) {
     log.info("Received request to add '{}' portfolio into db", portfolio);
     try {

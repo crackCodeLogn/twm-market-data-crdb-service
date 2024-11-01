@@ -27,3 +27,7 @@ feign:
       default:
         connectTimeout: 10000 #milliseconds
         readTimeout: 10000
+
+logging:
+  level:
+    root: info
