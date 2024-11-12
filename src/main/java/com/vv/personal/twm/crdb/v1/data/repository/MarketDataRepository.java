@@ -26,6 +26,13 @@ public interface MarketDataRepository extends JpaRepository<MarketDataEntity, Co
   @Query(value = "SELECT * FROM market_data where date >= :startDate", nativeQuery = true)
   List<MarketDataEntity> getAllSince(@Param("startDate") int startDate);
 
+  @Query(
+      value =
+          "SELECT * FROM market_data WHERE ticker = :ticker ORDER BY date DESC limit :numberOfRecords",
+      nativeQuery = true)
+  List<MarketDataEntity> getLimitedDataByTicker(
+      @Param("ticker") String ticker, @Param("numberOfRecords") int limitRecord);
+
   @Modifying
   @Transactional
   @Query(value = "DELETE from market_data where ticker = :ticker", nativeQuery = true)

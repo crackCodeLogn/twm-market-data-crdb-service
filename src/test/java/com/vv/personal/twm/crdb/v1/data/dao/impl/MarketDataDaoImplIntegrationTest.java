@@ -118,4 +118,52 @@ public class MarketDataDaoImplIntegrationTest {
     assertEquals(1, marketDataDao.deleteMarketDataByTicker("test-v1.to"));
     assertEquals(1, marketDataDao.deleteMarketDataByTicker("test-v3.to"));
   }
+
+  @Test
+  void limitedDataByTicker() {
+    marketDataDao.deleteMarketDataByTicker("test-v2.to");
+
+    MarketDataProto.Portfolio portfolio =
+        MarketDataProto.Portfolio.newBuilder()
+            .addInstruments(
+                MarketDataProto.Instrument.newBuilder()
+                    .setTicker(
+                        MarketDataProto.Ticker.newBuilder()
+                            .setSymbol("test-v2.to")
+                            .addData(
+                                MarketDataProto.Value.newBuilder()
+                                    .setPrice(131.23)
+                                    .setDate(20241001)
+                                    .build())
+                            .addData(
+                                MarketDataProto.Value.newBuilder()
+                                    .setPrice(132.23)
+                                    .setDate(20241002)
+                                    .build())
+                            .addData(
+                                MarketDataProto.Value.newBuilder()
+                                    .setPrice(133.23)
+                                    .setDate(20240930)
+                                    .build())
+                            .build())
+                    .build())
+            .build();
+
+    int rows = marketDataDao.insertMarketDataForPortfolio(portfolio);
+    assertEquals(3, rows);
+
+    Optional<MarketDataProto.Portfolio> optionalPortfolio =
+        marketDataDao.getLimitedDataByTicker("test-v2.to", 2);
+    System.out.println(optionalPortfolio);
+
+    assertTrue(optionalPortfolio.isPresent());
+    MarketDataProto.Portfolio portfolioRes = optionalPortfolio.get();
+    assertEquals(1, portfolioRes.getInstrumentsCount());
+    MarketDataProto.Instrument instrument = portfolioRes.getInstrumentsList().get(0);
+    assertEquals(2, instrument.getTicker().getDataCount());
+    assertEquals(20241002, instrument.getTicker().getData(0).getDate());
+    assertEquals(20241001, instrument.getTicker().getData(1).getDate());
+
+    assertEquals(3, marketDataDao.deleteMarketDataByTicker("test-v2.to"));
+  }
 }

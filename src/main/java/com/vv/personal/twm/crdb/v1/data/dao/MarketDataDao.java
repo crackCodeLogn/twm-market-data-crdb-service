@@ -18,4 +18,6 @@ public interface MarketDataDao {
   int insertMarketDataForPortfolio(MarketDataProto.Portfolio portfolio);
 
   int deleteMarketDataByTicker(String ticker);
+
+  Optional<MarketDataProto.Portfolio> getLimitedDataByTicker(String ticker, int numberOfRecords);
 }

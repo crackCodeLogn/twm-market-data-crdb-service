@@ -97,6 +97,23 @@ public class MarketDataDaoImpl implements MarketDataDao {
     return marketDataRepository.deleteAllByTicker(ticker);
   }
 
+  @Override
+  public Optional<MarketDataProto.Portfolio> getLimitedDataByTicker(
+      String ticker, int numberOfRecords) {
+    List<MarketDataEntity> marketDataEntities =
+        marketDataRepository.getLimitedDataByTicker(ticker, numberOfRecords);
+
+    MarketDataProto.Ticker.Builder tickerBuilder = generateEmptyTicker(marketDataEntities.get(0));
+    marketDataEntities.forEach(
+        marketDataEntity -> tickerBuilder.addData(generateValue(marketDataEntity)));
+
+    return Optional.of(
+        MarketDataProto.Portfolio.newBuilder()
+            .addInstruments(
+                MarketDataProto.Instrument.newBuilder().setTicker(tickerBuilder.build()).build())
+            .build());
+  }
+
   /**
    * Sorts the entire data values for a ticker in increasing order of date
    *

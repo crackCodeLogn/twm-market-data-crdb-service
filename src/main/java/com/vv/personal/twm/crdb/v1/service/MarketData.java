@@ -15,4 +15,6 @@ public interface MarketData extends BackUpAndRestore {
   Optional<MarketDataProto.Ticker> getMarketDataByTicker(String symbol);
 
   Optional<MarketDataProto.Portfolio> getEntireMarketData();
+
+  Optional<MarketDataProto.Portfolio> getLimitedDataByTicker(String ticker, int numberOfRecords);
 }

@@ -190,6 +190,29 @@ class MarketDataDaoImplTest {
     assertEquals(-1, result);
   }
 
+  @Test
+  public void testGetLimitedDataByTicker() {
+    List<MarketDataEntity> entities =
+        Lists.newArrayList(
+            generateMarketDataEntity("cm.to", 20241029, 87.95),
+            generateMarketDataEntity("cm.to", 20241028, 132.23),
+            generateMarketDataEntity("cm.to", 20241027, 131.23));
+
+    when(marketDataRepository.getLimitedDataByTicker("cm.to", 3)).thenReturn(entities);
+
+    Optional<MarketDataProto.Portfolio> optionalPortfolio =
+        marketDataDao.getLimitedDataByTicker("cm.to", 3);
+    System.out.println(optionalPortfolio);
+    assertTrue(optionalPortfolio.isPresent());
+    MarketDataProto.Portfolio portfolio = optionalPortfolio.get();
+    assertEquals(1, portfolio.getInstrumentsList().size());
+    MarketDataProto.Instrument instrument = portfolio.getInstrumentsList().get(0);
+    assertEquals(3, instrument.getTicker().getDataCount());
+    assertEquals(20241029, instrument.getTicker().getData(0).getDate());
+    assertEquals(20241028, instrument.getTicker().getData(1).getDate());
+    assertEquals(20241027, instrument.getTicker().getData(2).getDate());
+  }
+
   private MarketDataEntity generateMarketDataEntity(String ticker, int date, double price) {
     return MarketDataEntity.builder()
         .price(price)

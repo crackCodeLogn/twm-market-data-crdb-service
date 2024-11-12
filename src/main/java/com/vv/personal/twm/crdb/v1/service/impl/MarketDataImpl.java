@@ -39,6 +39,12 @@ public class MarketDataImpl implements MarketData {
   }
 
   @Override
+  public Optional<MarketDataProto.Portfolio> getLimitedDataByTicker(
+      String ticker, int numberOfRecords) {
+    return marketDataDao.getLimitedDataByTicker(ticker, numberOfRecords);
+  }
+
+  @Override
   public String extractDataInDelimitedFormat(String delimiter) {
     throw new UnsupportedOperationException("Not supported yet.");
   }

@@ -62,4 +62,16 @@ public class MarketDataController {
     System.out.println(portfolio); // todo - remove later
     return portfolio;
   }
+
+  @GetMapping("/data/{ticker}/{limit}")
+  public MarketDataProto.Portfolio getLimitedDataByTicker(
+      @PathVariable String ticker, @PathVariable int limit) {
+    log.info("Received request to limit get {} records of market data of {}", limit, ticker);
+    MarketDataProto.Portfolio portfolio =
+        marketData
+            .getLimitedDataByTicker(ticker, limit)
+            .orElse(MarketDataProto.Portfolio.newBuilder().build());
+    System.out.println(portfolio); // todo - remove later
+    return portfolio;
+  }
 }
