@@ -102,6 +102,10 @@ public class MarketDataDaoImpl implements MarketDataDao {
       String ticker, int numberOfRecords) {
     List<MarketDataEntity> marketDataEntities =
         marketDataRepository.getLimitedDataByTicker(ticker, numberOfRecords);
+    if (marketDataEntities.isEmpty()) {
+      log.warn("No limit data retrieved for {}", ticker);
+      return Optional.empty();
+    }
 
     MarketDataProto.Ticker.Builder tickerBuilder = generateEmptyTicker(marketDataEntities.get(0));
     marketDataEntities.forEach(
