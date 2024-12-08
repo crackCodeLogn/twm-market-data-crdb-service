@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @since 2024-10-30
  */
 @SpringBootTest
-public class MarketDataDaoImplIntegrationTest {
+public class MarketDataServiceDaoImplIntegrationTest {
 
   @Autowired private MarketDataRepository marketDataRepository;
 

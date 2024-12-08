@@ -2,7 +2,7 @@ package com.vv.personal.twm.crdb.v1.service.impl;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
 import com.vv.personal.twm.crdb.v1.data.dao.MarketDataDao;
-import com.vv.personal.twm.crdb.v1.service.MarketData;
+import com.vv.personal.twm.crdb.v1.service.MarketDataService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MarketDataImpl implements MarketData {
+public class MarketDataServiceImpl implements MarketDataService {
   private final MarketDataDao marketDataDao;
 
   @Override

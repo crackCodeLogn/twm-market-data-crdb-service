@@ -25,7 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @since 2024-10-29
  */
 @ExtendWith(MockitoExtension.class)
-class MarketDataDaoImplTest {
+class MarketDataServiceDaoImplTest {
 
   @Mock MarketDataRepository marketDataRepository;
 

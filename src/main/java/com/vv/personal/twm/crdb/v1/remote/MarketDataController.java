@@ -1,7 +1,7 @@
 package com.vv.personal.twm.crdb.v1.remote;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
-import com.vv.personal.twm.crdb.v1.service.MarketData;
+import com.vv.personal.twm.crdb.v1.service.MarketDataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController("market-data-controller")
 @RequestMapping("/crdb/mkt/")
 public class MarketDataController {
-  private final MarketData marketData;
+  private final MarketDataService marketDataService;
 
   @PostMapping("/data-single-ticker/")
   public String addMarketDataForSingleTicker(@RequestBody MarketDataProto.Ticker ticker) {
     log.info("Received request to add '{}' ticker into db", ticker);
     try {
-      boolean result = marketData.addMarketDataForSingleTicker(ticker);
+      boolean result = marketDataService.addMarketDataForSingleTicker(ticker);
       if (result) return "Done";
       return "Failed";
     } catch (Exception e) {
@@ -34,7 +34,7 @@ public class MarketDataController {
   public String addMarketData(@RequestBody MarketDataProto.Portfolio portfolio) {
     log.info("Received request to add '{}' portfolio into db", portfolio);
     try {
-      boolean result = marketData.addMarketData(portfolio);
+      boolean result = marketDataService.addMarketData(portfolio);
       if (result) return "Done";
       return "Failed";
     } catch (Exception e) {
@@ -47,7 +47,7 @@ public class MarketDataController {
   public MarketDataProto.Ticker getMarketDataByTicker(@PathVariable String ticker) {
     log.info("Received request to get market data for ticker '{}'", ticker);
     MarketDataProto.Ticker t =
-        marketData
+        marketDataService
             .getMarketDataByTicker(ticker)
             .orElse(MarketDataProto.Ticker.newBuilder().build());
     System.out.println(t); // todo - remove later
@@ -58,7 +58,9 @@ public class MarketDataController {
   public MarketDataProto.Portfolio getEntireMarketData() {
     log.info("Received request to get the entire market data");
     MarketDataProto.Portfolio portfolio =
-        marketData.getEntireMarketData().orElse(MarketDataProto.Portfolio.newBuilder().build());
+        marketDataService
+            .getEntireMarketData()
+            .orElse(MarketDataProto.Portfolio.newBuilder().build());
     System.out.println(portfolio); // todo - remove later
     return portfolio;
   }
@@ -68,7 +70,7 @@ public class MarketDataController {
       @PathVariable String ticker, @PathVariable int limit) {
     log.info("Received request to limit get {} records of market data of {}", limit, ticker);
     MarketDataProto.Portfolio portfolio =
-        marketData
+        marketDataService
             .getLimitedDataByTicker(ticker, limit)
             .orElse(MarketDataProto.Portfolio.newBuilder().build());
     System.out.println(portfolio); // todo - remove later
