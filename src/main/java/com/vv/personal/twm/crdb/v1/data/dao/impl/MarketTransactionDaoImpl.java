@@ -1,9 +1,9 @@
 package com.vv.personal.twm.crdb.v1.data.dao.impl;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
-import com.vv.personal.twm.crdb.v1.data.dao.MarketTransactionsDao;
+import com.vv.personal.twm.crdb.v1.data.dao.MarketTransactionDao;
 import com.vv.personal.twm.crdb.v1.data.entity.MarketTransactionEntity;
-import com.vv.personal.twm.crdb.v1.data.repository.MarketTransactionsRepository;
+import com.vv.personal.twm.crdb.v1.data.repository.MarketTransactionRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MarketTransactionsDaoImpl implements MarketTransactionsDao {
-  private final MarketTransactionsRepository marketTransactionsRepository;
+public class MarketTransactionDaoImpl implements MarketTransactionDao {
+  private final MarketTransactionRepository marketTransactionRepository;
 
   @Override
   public Optional<MarketDataProto.Portfolio> getMarketTransactions(String direction) {
     List<MarketDataProto.Instrument> instruments =
-        marketTransactionsRepository.getAllByDirection(direction).stream()
+        marketTransactionRepository.getAllByDirection(direction).stream()
             .map(this::generateMarketTransaction)
             .toList();
 
@@ -35,7 +35,7 @@ public class MarketTransactionsDaoImpl implements MarketTransactionsDao {
   public int insertMarketTransactions(MarketDataProto.Portfolio portfolio) {
     List<MarketTransactionEntity> marketTransactionEntities =
         portfolio.getInstrumentsList().stream().map(this::generateMarketTransaction).toList();
-    return marketTransactionsRepository.saveAll(marketTransactionEntities).size();
+    return marketTransactionRepository.saveAll(marketTransactionEntities).size();
   }
 
   private MarketDataProto.Instrument generateMarketTransaction(MarketTransactionEntity entity) {

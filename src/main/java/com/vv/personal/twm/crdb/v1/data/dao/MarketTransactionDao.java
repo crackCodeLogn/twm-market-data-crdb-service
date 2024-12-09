@@ -7,7 +7,7 @@ import java.util.Optional;
  * @author Vivek
  * @since 2024-12-08
  */
-public interface MarketTransactionsDao {
+public interface MarketTransactionDao {
 
   Optional<MarketDataProto.Portfolio> getMarketTransactions(String direction);
 

@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "market_transactions")
+@Table(name = "market_transaction")
 public class MarketTransactionEntity {
 
   @Id

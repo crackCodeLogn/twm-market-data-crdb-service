@@ -1,4 +1,4 @@
-create table market_transactions
+create table market_transaction
 (
     order_id         varchar(25)  NOT NULL,
     direction        varchar(10)  NOT NULL,
