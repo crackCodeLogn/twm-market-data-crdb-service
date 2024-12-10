@@ -1,4 +1,4 @@
-create table market_transactions
+create table market_transaction
 (
     order_id         varchar(25)  NOT NULL,
     direction        varchar(10)  NOT NULL,
@@ -15,6 +15,7 @@ create table market_transactions
     cusip            varchar(20)  NOT NULL,
     transaction_type varchar(20)  NOT NULL,
     instrument_type  varchar(10)  NOT NULL,
+    country_code varchar(10) NOT NULL,
 
     PRIMARY KEY (order_id)
 );

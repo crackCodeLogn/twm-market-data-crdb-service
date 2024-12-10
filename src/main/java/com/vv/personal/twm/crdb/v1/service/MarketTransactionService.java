@@ -7,7 +7,7 @@ import java.util.Optional;
  * @author Vivek
  * @since 2024-12-08
  */
-public interface MarketTransactionsService extends BackUpAndRestore {
+public interface MarketTransactionService extends BackUpAndRestore {
   boolean addMarketTransactions(MarketDataProto.Portfolio portfolio);
 
   Optional<MarketDataProto.Portfolio> getEntireMarketTransactions(String direction);

@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
  * @since 2024-12-08
  */
 @Repository
-public interface MarketTransactionsRepository
+public interface MarketTransactionRepository
     extends JpaRepository<MarketTransactionEntity, String> {
 
   @Query(
-      value = "SELECT * FROM market_transactions WHERE direction = :direction",
+      value = "SELECT * FROM market_transaction WHERE direction = :direction",
       nativeQuery = true)
   List<MarketTransactionEntity> getAllByDirection(@Param("direction") String direction);
 }

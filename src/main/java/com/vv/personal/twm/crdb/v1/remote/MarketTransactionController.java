@@ -1,7 +1,7 @@
 package com.vv.personal.twm.crdb.v1.remote;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
-import com.vv.personal.twm.crdb.v1.service.MarketTransactionsService;
+import com.vv.personal.twm.crdb.v1.service.MarketTransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController("market-transactions-controller")
 @RequestMapping("/crdb/mkt/transactions/")
-public class MarketTransactionsController {
-  private final MarketTransactionsService marketTransactionsService;
+public class MarketTransactionController {
+  private final MarketTransactionService marketTransactionService;
 
   @PostMapping("")
   public String addMarketData(@RequestBody MarketDataProto.Portfolio portfolio) {
     log.info("Received request to add '{}' transactions into db", portfolio.getInstrumentsCount());
     try {
-      boolean result = marketTransactionsService.addMarketTransactions(portfolio);
+      boolean result = marketTransactionService.addMarketTransactions(portfolio);
       if (result) return "Done";
       return "Failed";
     } catch (Exception e) {
@@ -34,7 +34,7 @@ public class MarketTransactionsController {
   public MarketDataProto.Portfolio getTransactions(@PathVariable String direction) {
     log.info("Received request to get market transactions for '{}'", direction);
     MarketDataProto.Portfolio portfolio =
-        marketTransactionsService
+        marketTransactionService
             .getEntireMarketTransactions(direction)
             .orElse(MarketDataProto.Portfolio.newBuilder().build());
     System.out.println(portfolio); // todo - remove later

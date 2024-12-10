@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "market_transactions")
+@Table(name = "market_transaction")
 public class MarketTransactionEntity {
 
   @Id
@@ -61,4 +61,7 @@ public class MarketTransactionEntity {
 
   @Column(name = "instrument_type")
   private String instrumentType;
+
+  @Column(name = "country_code")
+  private String countryCode;
 }
