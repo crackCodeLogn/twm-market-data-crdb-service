@@ -12,4 +12,6 @@ public interface MarketTransactionDao {
   Optional<MarketDataProto.Portfolio> getMarketTransactions(String direction);
 
   int insertMarketTransactions(MarketDataProto.Portfolio portfolio);
+
+  Optional<MarketDataProto.Portfolio> getDividends(MarketDataProto.AccountType accountType);
 }

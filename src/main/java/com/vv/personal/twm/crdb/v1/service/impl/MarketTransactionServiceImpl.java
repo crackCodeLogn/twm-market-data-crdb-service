@@ -30,6 +30,11 @@ public class MarketTransactionServiceImpl implements MarketTransactionService {
   }
 
   @Override
+  public Optional<MarketDataProto.Portfolio> getDividends(MarketDataProto.AccountType accountType) {
+    return marketTransactionDao.getDividends(accountType);
+  }
+
+  @Override
   public String extractDataInDelimitedFormat(String delimiter) {
     throw new UnsupportedOperationException("Not supported yet.");
   }

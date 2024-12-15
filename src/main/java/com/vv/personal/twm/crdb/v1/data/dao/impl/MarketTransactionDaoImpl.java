@@ -38,6 +38,16 @@ public class MarketTransactionDaoImpl implements MarketTransactionDao {
     return marketTransactionRepository.saveAll(marketTransactionEntities).size();
   }
 
+  @Override
+  public Optional<MarketDataProto.Portfolio> getDividends(MarketDataProto.AccountType accountType) {
+    List<MarketDataProto.Instrument> instruments =
+        marketTransactionRepository.getAllDividendsByAccountType(accountType.name()).stream()
+            .map(this::generateMarketTransaction)
+            .toList();
+    return Optional.of(
+        MarketDataProto.Portfolio.newBuilder().addAllInstruments(instruments).build());
+  }
+
   private MarketDataProto.Instrument generateMarketTransaction(MarketTransactionEntity entity) {
     return MarketDataProto.Instrument.newBuilder()
         .setTicker(

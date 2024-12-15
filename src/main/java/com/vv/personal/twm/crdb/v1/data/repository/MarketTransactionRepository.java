@@ -19,4 +19,10 @@ public interface MarketTransactionRepository
       value = "SELECT * FROM market_transaction WHERE direction = :direction",
       nativeQuery = true)
   List<MarketTransactionEntity> getAllByDirection(@Param("direction") String direction);
+
+  @Query(
+      value =
+          "SELECT * FROM market_transaction WHERE account_type = :accountType AND order_id ~ 'DIVIDEND.*'",
+      nativeQuery = true)
+  List<MarketTransactionEntity> getAllDividendsByAccountType(String accountType);
 }

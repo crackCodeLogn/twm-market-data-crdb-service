@@ -1,6 +1,6 @@
 create table market_transaction
 (
-    order_id         varchar(25)  NOT NULL,
+    order_id     varchar(51) NOT NULL,
     direction        varchar(10)  NOT NULL,
     ticker           varchar(15)  NOT NULL,
     qty              numeric      not null,
@@ -19,3 +19,7 @@ create table market_transaction
 
     PRIMARY KEY (order_id)
 );
+
+ALTER TABLE market_transaction
+ALTER
+COLUMN order_id TYPE VARCHAR(51);

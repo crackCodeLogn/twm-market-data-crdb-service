@@ -40,4 +40,20 @@ public class MarketTransactionController {
     System.out.println(portfolio); // todo - remove later
     return portfolio;
   }
+
+  @GetMapping("/dividends/{accountType}")
+  public MarketDataProto.Portfolio getDividends(@PathVariable String accountType) {
+    MarketDataProto.AccountType type = MarketDataProto.AccountType.valueOf(accountType);
+    if (type == MarketDataProto.AccountType.UNRECOGNIZED) {
+      log.error("Failed to find accountType '{}'", accountType);
+      return MarketDataProto.Portfolio.newBuilder().build();
+    }
+    log.info("Received request to get dividend market transactions for '{}'", type);
+    MarketDataProto.Portfolio portfolio =
+        marketTransactionService
+            .getDividends(type)
+            .orElse(MarketDataProto.Portfolio.newBuilder().build());
+    System.out.println(portfolio);
+    return portfolio;
+  }
 }
