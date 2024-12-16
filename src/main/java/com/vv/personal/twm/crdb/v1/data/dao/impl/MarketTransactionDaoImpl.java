@@ -89,8 +89,9 @@ public class MarketTransactionDaoImpl implements MarketTransactionDao {
     String accountType = instrument.getAccountType().name();
     String direction = instrument.getDirection().name();
     String orderId = instrument.getMetaDataOrDefault("orderId", "");
-    int settlementDate = Integer.parseInt(instrument.getMetaDataOrDefault("settlementDate", ""));
-    double pricePerShare = Double.parseDouble(instrument.getMetaDataOrDefault("pricePerShare", ""));
+    int settlementDate = Integer.parseInt(instrument.getMetaDataOrDefault("settlementDate", "0"));
+    double pricePerShare =
+        Double.parseDouble(instrument.getMetaDataOrDefault("pricePerShare", "0.0"));
     String cusip = instrument.getMetaDataOrDefault("cusip", "");
     String accountNumber = instrument.getMetaDataOrDefault("accountNumber", "");
     String transactionType = instrument.getMetaDataOrDefault("transactionType", "");
