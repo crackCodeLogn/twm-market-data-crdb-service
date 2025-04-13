@@ -1,0 +1,17 @@
+package com.vv.personal.twm.market.crdb.v1.data.dao;
+
+import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
+import java.util.Optional;
+
+/**
+ * @author Vivek
+ * @since 2024-12-08
+ */
+public interface MarketTransactionDao {
+
+  Optional<MarketDataProto.Portfolio> getMarketTransactions(String direction);
+
+  int insertMarketTransactions(MarketDataProto.Portfolio portfolio);
+
+  Optional<MarketDataProto.Portfolio> getDividends(MarketDataProto.AccountType accountType);
+}
