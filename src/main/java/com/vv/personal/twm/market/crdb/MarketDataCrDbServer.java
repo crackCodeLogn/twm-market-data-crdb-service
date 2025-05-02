@@ -22,7 +22,7 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 @EnableJpaRepositories
 @EnableFeignClients
 @EnableDiscoveryClient
-@ComponentScan({"com.vv.personal.twm.crdb", "com.vv.personal.twm.ping"})
+@ComponentScan({"com.vv.personal.twm.market.crdb", "com.vv.personal.twm.ping"})
 @SpringBootApplication
 public class MarketDataCrDbServer {
   private static final String LOCALHOST = "localhost";
