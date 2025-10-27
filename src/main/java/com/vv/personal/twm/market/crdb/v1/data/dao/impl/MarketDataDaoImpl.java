@@ -98,6 +98,11 @@ public class MarketDataDaoImpl implements MarketDataDao {
   }
 
   @Override
+  public int deleteMarketDataByTickerAndDate(String ticker, int date) {
+    return marketDataRepository.deleteAllByTickerAndDate(ticker, date);
+  }
+
+  @Override
   public Optional<MarketDataProto.Portfolio> getLimitedDataByTicker(
       String ticker, int numberOfRecords) {
     List<MarketDataEntity> marketDataEntities =

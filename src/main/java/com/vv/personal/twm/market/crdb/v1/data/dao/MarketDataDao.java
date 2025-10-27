@@ -19,5 +19,7 @@ public interface MarketDataDao {
 
   int deleteMarketDataByTicker(String ticker);
 
+  int deleteMarketDataByTickerAndDate(String ticker, int date);
+
   Optional<MarketDataProto.Portfolio> getLimitedDataByTicker(String ticker, int numberOfRecords);
 }

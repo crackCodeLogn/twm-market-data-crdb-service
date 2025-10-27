@@ -166,4 +166,24 @@ public class MarketDataServiceDaoImplIntegrationTest {
 
     assertEquals(3, marketDataDao.deleteMarketDataByTicker("test-v2.to"));
   }
+
+  @Test
+  void deleteMarketDataByTickerAndDate() {
+    marketDataDao.deleteMarketDataByTicker("test-v3.to");
+
+    MarketDataProto.Ticker ticker =
+        MarketDataProto.Ticker.newBuilder()
+            .setSymbol("test-v3.to")
+            .addData(MarketDataProto.Value.newBuilder().setPrice(25.122).setDate(20251027).build())
+            .addData(MarketDataProto.Value.newBuilder().setPrice(24.122).setDate(20251024).build())
+            .build();
+
+    int rows = marketDataDao.insertMarketDataForSingleTicker(ticker);
+    assertEquals(2, rows);
+
+    assertEquals(1, marketDataDao.deleteMarketDataByTickerAndDate("test-v3.to", 20251027));
+    assertEquals(1, marketDataDao.deleteMarketDataByTickerAndDate("test-v3.to", 20251024));
+
+    assertTrue(marketDataDao.getMarketDataByTicker("test-v3.to").isEmpty());
+  }
 }

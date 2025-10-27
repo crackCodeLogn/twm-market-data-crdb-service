@@ -45,6 +45,11 @@ public class MarketDataServiceImpl implements MarketDataService {
   }
 
   @Override
+  public boolean deleteMarketDataByTickerAndDate(String ticker, int date) {
+    return marketDataDao.deleteMarketDataByTickerAndDate(ticker, date) == 1;
+  }
+
+  @Override
   public String extractDataInDelimitedFormat(String delimiter) {
     throw new UnsupportedOperationException("Not supported yet.");
   }

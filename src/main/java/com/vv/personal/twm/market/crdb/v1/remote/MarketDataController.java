@@ -76,4 +76,17 @@ public class MarketDataController {
     System.out.println(portfolio); // todo - remove later
     return portfolio;
   }
+
+  @DeleteMapping("/data/{ticker}/{date}")
+  public String deleteMarketDataByTickerAndDate(
+      @PathVariable String ticker, @PathVariable int date) {
+    log.info("Received request to delete market data for ticker '{}' and date '{}'", ticker, date);
+    try {
+      boolean result = marketDataService.deleteMarketDataByTickerAndDate(ticker, date);
+      return result ? "Done" : "Failed";
+    } catch (Exception e) {
+      log.error("Failed to delete ticker data {}x{} correctly. ", ticker, date, e);
+    }
+    return "Failed";
+  }
 }
