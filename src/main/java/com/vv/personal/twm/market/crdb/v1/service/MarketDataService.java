@@ -1,6 +1,7 @@
 package com.vv.personal.twm.market.crdb.v1.service;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,4 +20,6 @@ public interface MarketDataService extends BackUpAndRestore {
   Optional<MarketDataProto.Portfolio> getLimitedDataByTicker(String ticker, int numberOfRecords);
 
   boolean deleteMarketDataByTickerAndDate(String ticker, int date);
+
+  int deleteMarketDataByTickerAndDates(String ticker, List<Integer> dates);
 }

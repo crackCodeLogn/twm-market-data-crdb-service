@@ -2,6 +2,7 @@ package com.vv.personal.twm.market.crdb.v1.remote;
 
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
 import com.vv.personal.twm.market.crdb.v1.service.MarketDataService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -86,6 +87,23 @@ public class MarketDataController {
       return result ? "Done" : "Failed";
     } catch (Exception e) {
       log.error("Failed to delete ticker data {}x{} correctly. ", ticker, date, e);
+    }
+    return "Failed";
+  }
+
+  @PostMapping("/data/{ticker}/dates")
+  public String deleteMarketDataByTickerAndDates(
+      @PathVariable String ticker, @RequestBody List<Integer> dates) {
+    log.info(
+        "Received request to bulk delete market data for ticker '{}' and {} dates",
+        ticker,
+        dates.size());
+    try {
+      int result = marketDataService.deleteMarketDataByTickerAndDates(ticker, dates);
+      log.info("Bulk delete of {} happened for {} records", ticker, result);
+      return "Done";
+    } catch (Exception e) {
+      log.error("Failed to delete ticker data {} x {} dates correctly. ", ticker, dates.size(), e);
     }
     return "Failed";
   }

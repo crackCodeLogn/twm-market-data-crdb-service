@@ -3,6 +3,7 @@ package com.vv.personal.twm.market.crdb.v1.service.impl;
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
 import com.vv.personal.twm.market.crdb.v1.data.dao.MarketDataDao;
 import com.vv.personal.twm.market.crdb.v1.service.MarketDataService;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,11 @@ public class MarketDataServiceImpl implements MarketDataService {
   @Override
   public boolean deleteMarketDataByTickerAndDate(String ticker, int date) {
     return marketDataDao.deleteMarketDataByTickerAndDate(ticker, date) == 1;
+  }
+
+  @Override
+  public int deleteMarketDataByTickerAndDates(String ticker, List<Integer> dates) {
+    return marketDataDao.deleteMarketDataByTickerAndDates(ticker, dates);
   }
 
   @Override

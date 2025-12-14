@@ -4,6 +4,7 @@ import static com.vv.personal.twm.market.crdb.v1.data.TestConstants.DELTA_PRECIS
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.common.collect.Lists;
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
 import com.vv.personal.twm.market.crdb.v1.data.dao.MarketDataDao;
 import com.vv.personal.twm.market.crdb.v1.data.repository.MarketDataRepository;
@@ -185,5 +186,25 @@ public class MarketDataServiceDaoImplIntegrationTest {
     assertEquals(1, marketDataDao.deleteMarketDataByTickerAndDate("test-v3.to", 20251024));
 
     assertTrue(marketDataDao.getMarketDataByTicker("test-v3.to").isEmpty());
+  }
+
+  @Test
+  void deleteMarketDataByTickerAndDates() {
+    marketDataDao.deleteMarketDataByTicker("test-v4.to");
+
+    MarketDataProto.Ticker ticker =
+        MarketDataProto.Ticker.newBuilder()
+            .setSymbol("test-v4.to")
+            .addData(MarketDataProto.Value.newBuilder().setPrice(25.122).setDate(20251027).build())
+            .addData(MarketDataProto.Value.newBuilder().setPrice(24.122).setDate(20251024).build())
+            .build();
+
+    assertEquals(2, marketDataDao.insertMarketDataForSingleTicker(ticker));
+    assertEquals(
+        2,
+        marketDataDao.deleteMarketDataByTickerAndDates(
+            "test-v4.to", Lists.newArrayList(20251027, 20251024)));
+
+    assertTrue(marketDataDao.getMarketDataByTicker("test-v4.to").isEmpty());
   }
 }
