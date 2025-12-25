@@ -31,10 +31,15 @@ public class MarketMetaDataController {
   }
 
   @PostMapping("/data/")
-  public String addMarketMetaDataForPortfolio(@RequestBody MarketDataProto.Portfolio portfolio) {
-    log.info("Received request to add '{}' metadata portfolio into db", portfolio);
+  public String addMarketMetaDataForPortfolio(
+      @RequestParam("truncate") boolean truncateFirst,
+      @RequestBody MarketDataProto.Portfolio portfolio) {
+    log.info(
+        "Received request to add '{}' metadata portfolio into db, with truncateFirst as {}",
+        portfolio,
+        truncateFirst);
     try {
-      boolean result = marketMetaDataService.addMarketMetaData(portfolio);
+      boolean result = marketMetaDataService.addMarketMetaData(truncateFirst, portfolio);
       return result ? "Done" : "Failed";
     } catch (Exception e) {
       log.error("Failed to write all data correctly. ", e);
@@ -48,7 +53,7 @@ public class MarketMetaDataController {
     MarketDataProto.Instrument t =
         marketMetaDataService
             .getMarketMetaDataByTicker(ticker)
-            .orElse(MarketDataProto.Instrument.newBuilder().build());
+            .orElseGet(() -> MarketDataProto.Instrument.newBuilder().build());
     System.out.println(t); // todo - remove later
     return t;
   }
@@ -59,9 +64,21 @@ public class MarketMetaDataController {
     MarketDataProto.Portfolio portfolio =
         marketMetaDataService
             .getEntireMarketMetaData()
-            .orElse(MarketDataProto.Portfolio.newBuilder().build());
+            .orElseGet(() -> MarketDataProto.Portfolio.newBuilder().build());
     System.out.println(portfolio); // todo - remove later
     return portfolio;
+  }
+
+  @DeleteMapping("/data/")
+  public String deleteEntireMarketMetaData() {
+    log.info("Received request to truncate market metadata");
+    try {
+      boolean result = marketMetaDataService.truncate();
+      return result ? "Done" : "Failed";
+    } catch (Exception e) {
+      log.error("Failed to truncate ticker metadata. ", e);
+    }
+    return "Failed";
   }
 
   @DeleteMapping("/data/{ticker}")

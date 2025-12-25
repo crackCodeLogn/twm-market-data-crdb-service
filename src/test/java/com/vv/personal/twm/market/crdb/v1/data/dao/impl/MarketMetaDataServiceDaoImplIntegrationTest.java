@@ -139,7 +139,7 @@ public class MarketMetaDataServiceDaoImplIntegrationTest {
                     .build())
             .build();
 
-    int rows = marketMetaDataDao.insertMarketMetaDataForPortfolio(portfolio);
+    int rows = marketMetaDataDao.insertMarketMetaDataForPortfolio(false, portfolio);
     assertEquals(2, rows);
 
     Optional<MarketDataProto.Instrument> marketMetaDataByTicker =
@@ -175,5 +175,60 @@ public class MarketMetaDataServiceDaoImplIntegrationTest {
     assertFalse(marketMetaDataByTicker.isPresent());
     marketMetaDataByTicker = marketMetaDataDao.getMarketMetaDataByTicker("test-v3.to");
     assertFalse(marketMetaDataByTicker.isPresent());
+  }
+
+  @Test
+  void truncateMetaData() {
+    MarketDataProto.Instrument instrument =
+        MarketDataProto.Instrument.newBuilder()
+            .setTicker(
+                MarketDataProto.Ticker.newBuilder()
+                    .setSymbol("test-v4.to")
+                    .addData(MarketDataProto.Value.newBuilder().setDate(20251221).build())
+                    .build())
+            .setSignal(SIG_BUY)
+            .setDividendYield(3.45)
+            .setMer(0.09)
+            .setNotes("test etf")
+            .setIssueCountry(MarketDataProto.Country.CA)
+            .setOriginCountry(MarketDataProto.Country.US)
+            .setCcy(MarketDataProto.CurrencyCode.INR)
+            .build();
+
+    assertEquals(1, marketMetaDataDao.insertMarketMetaDataForSingleTicker(instrument));
+
+    // truncate direct call
+    assertTrue(marketMetaDataDao.truncateMetaData());
+    assertTrue(marketMetaDataDao.getMarketMetaDataByTicker("test-v4.to").isEmpty());
+
+    // simulating truncating on add metadata via portfolio
+    MarketDataProto.Portfolio portfolio =
+        MarketDataProto.Portfolio.newBuilder()
+            .addInstruments(
+                MarketDataProto.Instrument.newBuilder()
+                    .setTicker(
+                        MarketDataProto.Ticker.newBuilder()
+                            .setSymbol("test-v4.to")
+                            .addData(MarketDataProto.Value.newBuilder().setDate(20251222).build())
+                            .build())
+                    .setSignal(SIG_BUY)
+                    .setDividendYield(3.45)
+                    .setMer(0.09)
+                    .setNotes("test etf")
+                    .setIssueCountry(MarketDataProto.Country.CA)
+                    .setOriginCountry(MarketDataProto.Country.US)
+                    .setCcy(MarketDataProto.CurrencyCode.INR)
+                    .build())
+            .build();
+
+    assertEquals(1, marketMetaDataDao.insertMarketMetaDataForSingleTicker(instrument)); // old add
+    assertEquals(1, marketMetaDataDao.insertMarketMetaDataForPortfolio(true, portfolio));
+    Optional<MarketDataProto.Instrument> readBackImnt =
+        marketMetaDataDao.getMarketMetaDataByTicker("test-v4.to");
+    assertTrue(readBackImnt.isPresent());
+    assertEquals(20251222, readBackImnt.get().getTicker().getData(0).getDate());
+
+    // cleanup
+    marketMetaDataDao.truncateMetaData();
   }
 }

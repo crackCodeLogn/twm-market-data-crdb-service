@@ -60,7 +60,8 @@ public class MarketMetaDataDaoImpl implements MarketMetaDataDao {
   }
 
   @Override
-  public int insertMarketMetaDataForPortfolio(MarketDataProto.Portfolio portfolio) {
+  public int insertMarketMetaDataForPortfolio(
+      boolean truncateFirst, MarketDataProto.Portfolio portfolio) {
     List<MarketMetaDataEntity> marketMetaDataEntities =
         portfolio.getInstrumentsList().stream()
             .map(this::generateMarketMetaDataEntity)
@@ -68,6 +69,11 @@ public class MarketMetaDataDaoImpl implements MarketMetaDataDao {
             .map(Optional::get)
             .toList();
     if (marketMetaDataEntities.isEmpty()) return 0;
+
+    if (truncateFirst) {
+      log.warn("Truncating first the entire market metadata");
+      truncateMetaData();
+    }
     return marketMetaDataRepository.saveAll(marketMetaDataEntities).size();
   }
 
@@ -93,6 +99,17 @@ public class MarketMetaDataDaoImpl implements MarketMetaDataDao {
       return true;
     } catch (Exception e) {
       log.error("Failed to save market meta data for instrument {}", instrument, e);
+    }
+    return false;
+  }
+
+  @Override
+  public boolean truncateMetaData() {
+    try {
+      marketMetaDataRepository.truncate();
+      return true;
+    } catch (Exception e) {
+      log.error("Failed to truncate market meta data", e);
     }
     return false;
   }

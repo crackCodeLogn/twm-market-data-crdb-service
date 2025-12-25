@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface MarketMetaDataService extends BackUpAndRestore {
   boolean addMarketMetaDataForSingleTicker(MarketDataProto.Instrument instrument);
 
-  boolean addMarketMetaData(MarketDataProto.Portfolio portfolio);
+  boolean addMarketMetaData(boolean truncateFirst, MarketDataProto.Portfolio portfolio);
 
   Optional<MarketDataProto.Instrument> getMarketMetaDataByTicker(String ticker);
 
@@ -19,4 +19,6 @@ public interface MarketMetaDataService extends BackUpAndRestore {
   boolean deleteMarketMetaDataByTicker(String ticker);
 
   boolean upsertMarketMetaDataForSingleTicker(MarketDataProto.Instrument instrument);
+
+  boolean truncate();
 }

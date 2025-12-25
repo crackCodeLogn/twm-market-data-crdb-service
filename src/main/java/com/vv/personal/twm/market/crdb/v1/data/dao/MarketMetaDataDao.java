@@ -15,9 +15,11 @@ public interface MarketMetaDataDao {
 
   int insertMarketMetaDataForSingleTicker(MarketDataProto.Instrument instrument);
 
-  int insertMarketMetaDataForPortfolio(MarketDataProto.Portfolio portfolio);
+  int insertMarketMetaDataForPortfolio(boolean truncateFirst, MarketDataProto.Portfolio portfolio);
 
   int deleteMarketMetaDataByTicker(String ticker);
 
   boolean upsertMarketMetaDataForSingleTicker(MarketDataProto.Instrument instrument);
+
+  boolean truncateMetaData();
 }

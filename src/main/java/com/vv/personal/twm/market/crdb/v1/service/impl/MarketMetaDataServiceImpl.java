@@ -24,8 +24,8 @@ public class MarketMetaDataServiceImpl implements MarketMetaDataService {
   }
 
   @Override
-  public boolean addMarketMetaData(MarketDataProto.Portfolio portfolio) {
-    return marketMetaDataDao.insertMarketMetaDataForPortfolio(portfolio) != 0;
+  public boolean addMarketMetaData(boolean truncateFirst, MarketDataProto.Portfolio portfolio) {
+    return marketMetaDataDao.insertMarketMetaDataForPortfolio(truncateFirst, portfolio) != 0;
   }
 
   @Override
@@ -46,6 +46,11 @@ public class MarketMetaDataServiceImpl implements MarketMetaDataService {
   @Override
   public boolean upsertMarketMetaDataForSingleTicker(MarketDataProto.Instrument instrument) {
     return marketMetaDataDao.upsertMarketMetaDataForSingleTicker(instrument);
+  }
+
+  @Override
+  public boolean truncate() {
+    return marketMetaDataDao.truncateMetaData();
   }
 
   @Override
