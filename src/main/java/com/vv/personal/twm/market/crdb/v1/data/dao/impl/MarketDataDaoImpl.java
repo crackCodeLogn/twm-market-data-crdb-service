@@ -79,6 +79,11 @@ public class MarketDataDaoImpl implements MarketDataDao {
   }
 
   @Override
+  public List<String> getAllUniqueTickers() {
+    return marketDataRepository.getAllUniqueTickers();
+  }
+
+  @Override
   public int insertMarketDataForSingleTicker(MarketDataProto.Ticker ticker) {
     if (ticker.getSymbol().isEmpty() || ticker.getDataCount() == 0) return -1;
 

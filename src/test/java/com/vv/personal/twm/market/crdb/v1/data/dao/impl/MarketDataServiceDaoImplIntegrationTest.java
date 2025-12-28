@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.vv.personal.twm.artifactory.generated.equitiesMarket.MarketDataProto;
 import com.vv.personal.twm.market.crdb.v1.data.dao.MarketDataDao;
 import com.vv.personal.twm.market.crdb.v1.data.repository.MarketDataRepository;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -206,5 +207,34 @@ public class MarketDataServiceDaoImplIntegrationTest {
             "test-v4.to", Lists.newArrayList(20251027, 20251024)));
 
     assertTrue(marketDataDao.getMarketDataByTicker("test-v4.to").isEmpty());
+  }
+
+  @Test
+  void getAllUniqueTickers() {
+    List<String> uniqueTickersBefore = marketDataDao.getAllUniqueTickers();
+
+    MarketDataProto.Ticker ticker1 =
+        MarketDataProto.Ticker.newBuilder()
+            .setSymbol("test-v5.to")
+            .addData(MarketDataProto.Value.newBuilder().setPrice(25.122).setDate(20251229).build())
+            .addData(MarketDataProto.Value.newBuilder().setPrice(24.122).setDate(20251230).build())
+            .build();
+    MarketDataProto.Ticker ticker2 =
+        MarketDataProto.Ticker.newBuilder()
+            .setSymbol("test-v6.to")
+            .addData(MarketDataProto.Value.newBuilder().setPrice(215.2).setDate(20251229).build())
+            .build();
+    marketDataDao.insertMarketDataForSingleTicker(ticker1);
+    marketDataDao.insertMarketDataForSingleTicker(ticker2);
+
+    List<String> uniqueTickersAfter = marketDataDao.getAllUniqueTickers();
+    assertEquals(2, uniqueTickersAfter.size() - uniqueTickersBefore.size());
+    assertTrue(uniqueTickersAfter.contains("test-v5.to"));
+    assertTrue(uniqueTickersAfter.contains("test-v6.to"));
+    System.out.println(uniqueTickersAfter);
+
+    // cleanup
+    marketDataDao.deleteMarketDataByTicker("test-v5.to");
+    marketDataDao.deleteMarketDataByTicker("test-v6.to");
   }
 }

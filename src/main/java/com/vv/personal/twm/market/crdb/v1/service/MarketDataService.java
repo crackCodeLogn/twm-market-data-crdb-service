@@ -19,6 +19,8 @@ public interface MarketDataService extends BackUpAndRestore {
 
   Optional<MarketDataProto.Portfolio> getLimitedDataByTicker(String ticker, int numberOfRecords);
 
+  List<String> getAllUniqueTickers();
+
   boolean deleteMarketDataByTickerAndDate(String ticker, int date);
 
   int deleteMarketDataByTickerAndDates(String ticker, List<Integer> dates);

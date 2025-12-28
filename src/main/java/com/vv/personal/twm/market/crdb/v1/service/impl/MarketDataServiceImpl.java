@@ -46,6 +46,11 @@ public class MarketDataServiceImpl implements MarketDataService {
   }
 
   @Override
+  public List<String> getAllUniqueTickers() {
+    return marketDataDao.getAllUniqueTickers();
+  }
+
+  @Override
   public boolean deleteMarketDataByTickerAndDate(String ticker, int date) {
     return marketDataDao.deleteMarketDataByTickerAndDate(ticker, date) == 1;
   }

@@ -14,6 +14,8 @@ public interface MarketDataDao {
 
   Optional<MarketDataProto.Portfolio> getEntireMarketData();
 
+  List<String> getAllUniqueTickers();
+
   int insertMarketDataForSingleTicker(MarketDataProto.Ticker ticker);
 
   int insertMarketDataForPortfolio(MarketDataProto.Portfolio portfolio);

@@ -78,6 +78,12 @@ public class MarketDataController {
     return portfolio;
   }
 
+  @GetMapping("/data/unique/tickers")
+  public List<String> getAllUniqueTickers() {
+    log.info("Received request to get all unique tickers of market data");
+    return marketDataService.getAllUniqueTickers();
+  }
+
   @DeleteMapping("/data/{ticker}/{date}")
   public String deleteMarketDataByTickerAndDate(
       @PathVariable String ticker, @PathVariable int date) {

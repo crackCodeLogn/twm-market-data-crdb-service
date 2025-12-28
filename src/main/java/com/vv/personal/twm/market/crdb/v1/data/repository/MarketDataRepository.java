@@ -33,6 +33,9 @@ public interface MarketDataRepository extends JpaRepository<MarketDataEntity, Co
   List<MarketDataEntity> getLimitedDataByTicker(
       @Param("ticker") String ticker, @Param("numberOfRecords") int limitRecord);
 
+  @Query(value = "SELECT distinct(ticker) FROM market_data order by ticker", nativeQuery = true)
+  List<String> getAllUniqueTickers();
+
   @Modifying
   @Transactional
   @Query(value = "DELETE from market_data where ticker = :ticker", nativeQuery = true)
