@@ -13,6 +13,7 @@ import com.vv.personal.twm.market.crdb.v1.data.dao.MarketMetaDataDao;
 import com.vv.personal.twm.market.crdb.v1.data.repository.MarketMetaDataRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -178,6 +179,7 @@ public class MarketMetaDataServiceDaoImplIntegrationTest {
   }
 
   @Test
+  @Disabled("DO NOT CALL THIS UNLESS PROD DATA IS TO BE WIPED")
   void truncateMetaData() {
     MarketDataProto.Instrument instrument =
         MarketDataProto.Instrument.newBuilder()

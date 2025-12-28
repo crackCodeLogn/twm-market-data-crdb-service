@@ -21,5 +21,6 @@ public interface MarketMetaDataDao {
 
   boolean upsertMarketMetaDataForSingleTicker(MarketDataProto.Instrument instrument);
 
+  /** DO NOT CALL IN TEST */
   boolean truncateMetaData();
 }
