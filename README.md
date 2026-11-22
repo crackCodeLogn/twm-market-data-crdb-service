@@ -46,11 +46,12 @@ market entities.
 
 | Stable     | Latest |
 |------------|--------|
+| **2.7.1**  | 2.7.1  |
 | **2.1.22** | 2.1.22 |
 
 ## 🛠️ Tech Stack
 
-![Java](https://img.shields.io/badge/Java-17-blue?style=for-the-badge&logo=openjdk)  
+![Java](https://img.shields.io/badge/Java-21-blue?style=for-the-badge&logo=openjdk)  
 ![CockroachDB](https://img.shields.io/badge/Database-CockroachDB-green?style=for-the-badge)  
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3-brightgreen?style=for-the-badge&logo=spring)  
 ![Spring JPA](https://img.shields.io/badge/Spring%20JPA-Enabled-orange?style=for-the-badge)  
