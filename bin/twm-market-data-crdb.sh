@@ -10,7 +10,7 @@ JAVA_PATH=$HOME/.jdks/jdk-current/bin/java
 if [[ $# -eq 0 ]]; then
     EUREKA_URI="http://localhost:2012/eureka"
 else
-    EUREKA_URI="http://192.168.1.$1:2012/eureka"
+    EUREKA_URI="http://192.168.0.$1:2012/eureka"
 fi
 
 APP_PARAMS="-DEUREKA_URI=$EUREKA_URI"
